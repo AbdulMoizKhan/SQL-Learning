@@ -1,18 +1,16 @@
 import React from 'react';
 
-interface Props {
-  value: string;
-  onChange: (v: string) => void;
-}
+interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
-const SqlEditor: React.FC<Props> = ({ value, onChange }) => {
+const SqlEditor = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
   return (
     <textarea
-      style={{ width: '100%', height: '150px' }}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
+      className="w-full h-40 p-2 border rounded-md font-mono"
+      ref={ref}
+      {...props}
     />
   );
-};
+});
+SqlEditor.displayName = 'SqlEditor';
 
 export default SqlEditor;
