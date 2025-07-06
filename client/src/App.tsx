@@ -1,19 +1,28 @@
-import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-import ScenarioPage from './pages/ScenarioPage';
-import Dashboard from './pages/Dashboard';
+import { Suspense, lazy } from 'react'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import './App.css'
 
-const App: React.FC = () => (
-  <div className="min-h-screen bg-gray-50">
-    <nav className="p-4 border-b bg-white mb-4 space-x-4">
-      <Link className="text-blue-600" to="/">Home</Link>
-      <Link className="text-blue-600" to="/dashboard">Dashboard</Link>
-    </nav>
-    <Routes>
-      <Route path="/" element={<ScenarioPage />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-    </Routes>
-  </div>
-);
+// Lazy import your pages
+const Home = lazy(() => import('./pages/Home/Home'))
+const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'))
 
-export default App;
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Home />,
+  },
+  {
+    path: '/dashboard',
+    element: <Dashboard />,
+  },
+])
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RouterProvider router={router} />
+    </Suspense>
+  )
+}
+
+export default App
